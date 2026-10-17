@@ -3,3 +3,6 @@ kind: ConfigMap
 metadata:
   name: sample-app-config
   namespace: sample-app
+data:
+  app.name: sample-app
+  message: Hello from ArgoCD
