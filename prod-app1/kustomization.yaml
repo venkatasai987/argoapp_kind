@@ -1,26 +1,15 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: sample-app
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: sample-app
-  template:
-    metadata:
-      labels:
-        app: sample-app
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:latest
-        ports:
-        - containerPort: 80
-        volumeMounts:
-        - name: config
-          mountPath: /config
-      volumes:
-      - name: config
-        configMap:
-          name: sample-app-config
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- namespace.yaml
+- deployment.yaml
+- service.yaml
+
+configMapGenerator:
+- name: sample-app-config
+  files:
+  - application.properties
+
+generatorOptions:
+  disableNameSuffixHash: true
